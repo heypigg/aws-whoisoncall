@@ -6,8 +6,8 @@ resource "aws_lambda_function" "process_csv" {
   
   role = "arn:aws:iam::000000000000:role/lambda-role" # You can mock this
   
-  filename         = "lambda.zip" # This should be your zipped Lambda function
-  source_code_hash = filebase64sha256("lambda.zip")
+  filename         = "/lambda/lambda_function.zip" # This should be your zipped Lambda function
+  source_code_hash = filebase64sha256("lambda_function.zip")
   
   environment {
     variables = {
