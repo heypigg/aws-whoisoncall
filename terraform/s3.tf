@@ -7,8 +7,8 @@ resource "aws_s3_bucket" "oncall_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "versioning_example" {
-  bucket = aws_s3_bucket.example.id
+resource "aws_s3_bucket_versioning" "whoisoncall" {
+  bucket = aws_s3_bucket.oncall_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -19,15 +19,15 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
 # }
 
 
-resource "aws_s3_bucket_acl" "example" {
+resource "aws_s3_bucket_acl" "whoisoncall" {
   depends_on = [aws_s3_bucket_ownership_controls.example]
 
-  bucket = aws_s3_bucket.example.id
+  bucket = aws_s3_bucket.oncall_bucket.id
   acl    = "private"
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "example" {
-  bucket = aws_s3_bucket.bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "whoisoncall" {
+  bucket = aws_s3_bucket.oncall_bucket.id
 
   rule {
     id = "rule-1"
@@ -38,12 +38,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "example" {
   }
 }
 
-resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
-  bucket = aws_s3_bucket.example.id
-  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+resource "aws_s3_bucket_policy" "whoisoncall" {
+  bucket = aws_s3_bucket.oncall_bucket.id
+  policy = data.aws_iam_policy_document.whoisoncall.json
 }
 
-data "aws_iam_policy_document" "allow_access_from_another_account" {
+data "aws_iam_policy_document" "whoisoncall" {
   statement {
     principals {
       type        = "AWS"
@@ -56,14 +56,14 @@ data "aws_iam_policy_document" "allow_access_from_another_account" {
     ]
 
     resources = [
-      aws_s3_bucket.example.arn,
-      "${aws_s3_bucket.example.arn}/*",
+      aws_s3_bucket.oncall_bucket.arn,
+      "${aws_s3_bucket.oncall_bucket.arn}/*",
     ]
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
-  bucket = aws_s3_bucket.example.id
+resource "aws_s3_bucket_public_access_block" "whoisoncall" {
+  bucket = aws_s3_bucket.oncall_bucket.id
 
   block_public_acls       = true
   block_public_policy     = true
