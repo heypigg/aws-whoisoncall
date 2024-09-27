@@ -12,7 +12,7 @@ resource "aws_ecs_cluster" "test" {
 
   configuration {
     execute_command_configuration {
-      kms_key_id = aws_kms_key.example.arn
+      #kms_key_id = aws_kms_key.example.arn
       logging    = "OVERRIDE"
 
     #   log_configuration {
