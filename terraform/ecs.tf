@@ -19,7 +19,7 @@ resource "aws_ecs_cluster" "oncallwebsite" {
 # }
 
 
-resource "aws_ecs_task_definition" "my_task" {
+resource "aws_ecs_task_definition" "oncallwebsite_task" {
   family                   = "oncallwebsite"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -44,6 +44,21 @@ resource "aws_ecs_task_definition" "my_task" {
     }
   ])
 }
+
+resource "aws_ecs_service" "oncallwebsite_service" {
+  name            = "my-ecs-service"
+  cluster         = aws_ecs_cluster.oncallwebsite.id
+  task_definition = aws_ecs_task_definition.oncallwebsite_task.arn
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  network_configuration {
+    subnets         = ["data.aws_subnet_ids.default.ids"]
+    #security_groups = ["<security_group_id>"]
+    assign_public_ip = true
+  }
+}
+
 
 ## Build Container Registry
 resource "aws_ecr_repository" "oncallwebsite_ecr_repo" {
