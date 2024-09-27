@@ -1,0 +1,6 @@
+*venv
+*/venv/*
+*.DS_Store
+*node_modules/*
+.terraform
+.terraform*
