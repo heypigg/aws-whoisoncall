@@ -53,7 +53,7 @@ resource "aws_ecs_service" "oncallwebsite_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = ["data.aws_subnet_ids.default.ids"]
+    subnets         = ["data.aws_subnet.default.ids"]
     #security_groups = ["<security_group_id>"]
     assign_public_ip = true
   }
